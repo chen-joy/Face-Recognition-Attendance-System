@@ -1513,6 +1513,7 @@ a {
     color: var(--color-1);
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    font-size: 18px;
 }
 
 a:hover, a:focus, a:active {
@@ -1548,7 +1549,7 @@ h1, h2, h3, h4, h5, h6,
     font-family: var(--font-1);
     font-weight: 600;
     font-style: normal;
-    color: var(--color-text-dark);
+    color: var(--color-1);
     -webkit-font-variant-ligatures: common-ligatures;
     font-variant-ligatures: common-ligatures;
     text-rendering: optimizeLegibility;
@@ -3119,7 +3120,6 @@ input[type="button"].btn--primary:focus {
     right: 0;
     top: 0;
 }
-
 .s-header__menu-toggle .s-header__menu-icon {
     display: block;
     width: 30px;
@@ -3335,7 +3335,7 @@ input[type="button"].btn--primary:focus {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(360deg, black 5%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(360deg, black 5%, rgba(0, 0, 0, 0) 20%);
     opacity: .4;
 }
 
@@ -3387,7 +3387,7 @@ input[type="button"].btn--primary:focus {
     text-align: center;
     height: 1px;
     width: 300px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(200, 183, 166, 1);
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     position: absolute;
@@ -3637,7 +3637,7 @@ input[type="button"].btn--primary:focus {
     background-color: var(--color-gray-17);
     padding-top: calc(3 * var(--space));
     padding-bottom: var(--vspace-4);
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .s-about h3 {
@@ -3648,7 +3648,7 @@ input[type="button"].btn--primary:focus {
 .s-about__pic {
     width: var(--vspace-5);
     height: var(--vspace-5);
-    border: 1.6rem solid rgba(255, 255, 255, 0.02);
+    border: 1.6rem solid rgba(200, 183, 166, 1);
     border-radius: 50%;
 }
 
@@ -3657,7 +3657,7 @@ input[type="button"].btn--primary:focus {
 }
 
 .s-about__content-bottom a {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(200, 183, 166, 1);
 }
 
 .s-about__content-bottom a:hover, 
@@ -3977,10 +3977,10 @@ input[type="button"].btn--primary:focus {
 }
 
 .modal-popup__details {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(200, 183, 166, 1);
     font-size: var(--text-sm);
     line-height: calc(var(--vspace-1_5) - 2px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(200, 183, 166, 1);
     color: var(--color-1);
     border-radius: var(--border-radius);
     padding: 0 1.4rem;
@@ -4079,7 +4079,7 @@ input[type="button"].btn--primary:focus {
 .s-testimonials {
     padding-top: var(--vspace-5);
     padding-bottom: var(--vspace-3_5);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(200, 183, 166, 1);
     background-color: var(--color-gray-19);
     overflow: hidden;
     position: relative;
@@ -4211,7 +4211,7 @@ input[type="button"].btn--primary:focus {
     font-size: calc(var(--text-size) * 0.778);
     font-weight: 300;
     line-height: var(--vspace-0_5);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(200, 183, 166, 1);
 }
 
 /* ------------------------------------------------------------------- 
@@ -4296,7 +4296,7 @@ input[type="button"].btn--primary:focus {
 .contact-block__header {
     font-size: 2.2rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(200, 183, 166, 1);
     margin-top: 0;
     margin-bottom: .2rem;
 }
@@ -4365,16 +4365,16 @@ input[type="button"].btn--primary:focus {
  *
  * ------------------------------------------------------------------- */
 .s-footer {
-    background-color: var(--color-gray-18);
+    background-color: var(--color-1);
     padding-top: var(--vspace-1);
     padding-bottom: var(--vspace-3);
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(200, 183, 166, 1);
     position: relative;
 }
 
 .s-footer .row {
     padding-top: var(--vspace-1);
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(200, 183, 166, 1);
 }
 
 .s-footer a {
@@ -4385,6 +4385,12 @@ input[type="button"].btn--primary:focus {
     color: var(--color-1);
 }
 
+.page-divider {
+    border: none;
+    height: 1.5px;
+    background-color: var(--color-1); /* 分隔线 */
+    margin: 0px 0; /* 上下间距 */
+}
 /* ------------------------------------------------------------------- 
  * ## footer social
  * ------------------------------------------------------------------- */
@@ -4438,7 +4444,7 @@ input[type="button"].btn--primary:focus {
     content: "|";
     display: inline-block;
     padding: 0 .8rem 0 1rem;
-    color: rgba(255, 255, 255, 0.1);
+    color: var(--color-1);
 }
 
 .ss-copyright span:last-child::after {
@@ -4571,7 +4577,7 @@ input[type="button"].btn--primary:focus {
 :root {
     --color-bg: #758d71; /* 莫兰迪浅绿 */
     --color-1: #c8b7a6;  /* 莫兰迪咖 */
-    --color-2: #758d60;  /* 莫兰迪正绿 */
+    --color-2: #758d71;  /* 莫兰迪正绿 */
     /* 其它变量保持不变 */
 }
 /* 强制全局背景色为莫兰迪绿 */

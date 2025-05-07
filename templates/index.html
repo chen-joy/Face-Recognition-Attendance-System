@@ -75,7 +75,7 @@
                 <div class="s-hero__content-about">
 
                     <h1>人脸识别考勤系统</h1>
-
+                    <h2>Face-Recognition-Attendance-System</h2>
                     <h3>
                         <span class="text-white">武汉大学 国家网络安全学院 人脸识别考勤系统</span><br>
                         <span class="text-white">支持人脸检测、活体检测、年龄检测、性别检测、表情检测</span><br>
@@ -100,12 +100,13 @@
                 <span class="scroll-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, 1);"><path d="M18.707 12.707L17.293 11.293 13 15.586 13 6 11 6 11 15.586 6.707 11.293 5.293 12.707 12 19.414z"></path></svg>
                 </span>
-                <span class="scroll-text" style="font-size: 16px;">开始使用！</span>
+                <span class="scroll-text" style="font-size: 18px;">开始使用！</span>
             </a>
         </div> <!-- s-hero__scroll -->
 
     </section> <!-- end s-hero -->
 
+    <hr class="page-divider" />
 
     <!-- Try
     ================================================== -->
@@ -113,7 +114,7 @@
         <div class="row" style="text-align: center; margin-top: 0px;">
             <div class="column large-12 tab-12" style="display: flex; flex-direction: column; align-items: center;">
                 <h3>开始使用！</h3>
-                <button id="startCamera" style="margin-top: 20px;font-size: 16px;">人脸检测</button>  
+                <button id="startCamera" style="margin-top: 20px;font-size: 28px;">人脸检测</button>  
             </div>
             <div class="column large-9 tab-9" style="display: flex; flex-direction: column; align-items: center;">
                 <video id="video" autoplay style="display: none; width: 100%; height: 80%; margin: auto; border: 3px solid white;"></video>
@@ -193,14 +194,14 @@
                     .then(response => response.json())
                     .then(data => { 
                         resultsDiv.innerHTML = '';
-                        if (data.pass === "PASS") {resultsDiv.innerHTML += `Welcome ${data.user_id}, You have successfully completed the check-in! <br>`
+                        if (data.pass === "PASS") {resultsDiv.innerHTML += `您好 ${data.user_id}, 您已成功通过人脸检测! <br>`
                         } else if(data.livepass === "PASS"){
-                            resultsDiv.innerHTML += `Sorry... You are not registered in the system! <br>`
+                            resultsDiv.innerHTML += `抱歉... 您还没在系统中进行注册! <br>`
                         } else {
-                            resultsDiv.innerHTML += `Sorry ${data.user_id}... You didn't pass the liveness test! <br>`
+                            resultsDiv.innerHTML += `抱歉 ${data.user_id}... 您并未通过人脸检测! <br>`
                         }
                         
-                        resultsDiv.innerHTML +=`<br>Score:${data.score},Gender:${data.gender}, Age:${data.age}, Expression:${data.expression}, Live:${data.livepass} `;
+                        resultsDiv.innerHTML +=`<br>检测得分:${data.score},性别检测:${data.gender}, 年龄检测:${data.age}, 表情检测:${data.expression}, 活体检测:${data.livepass} `;
                         resultsDiv.style.display = 'block';
 
                     })
@@ -214,7 +215,7 @@
     </section>
     
     
-    
+    <hr class="page-divider" />
     
 
 
@@ -244,7 +245,7 @@
                     <div class="column large-12 medium-6 tab-12">
                         <div class="contact-block">
                             <h5 class="contact-block__header">
-                                邮箱
+                                邮箱：
                             </h5>
                             <p class="contact-block__content">
                                 <a class="mailtoui" href="mailto:1814316618@qq.com">1814316618@qq.com</a>
@@ -254,7 +255,7 @@
                     <div class="column large-12 medium-6 tab-12">
                         <div class="contact-block">
                             <h5 class="contact-block__header">
-                                电话
+                                电话:
                             </h5>
                             <p class="contact-block__content">
                                 <a href="tel:+18855023506">18855023506</a>
