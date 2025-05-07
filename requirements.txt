@@ -1,0 +1,8 @@
+baidu_aip==4.16.13
+facenet_pytorch==2.6.0
+Flask==3.1.0
+numpy==2.2.5
+opencv_python==4.11.0.86
+Pillow==11.2.1
+torch==2.2.2+cpu
+transformers==4.51.3
