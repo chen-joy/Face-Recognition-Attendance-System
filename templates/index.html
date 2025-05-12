@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>人脸识别考勤系统</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/vendor.css">
+
+    <!-- script
+    ================================================== -->
+    <script defer src="/static/js/vendor/fontawesome/all.min.js"></script>
+
+    <!-- 添加自定义样式 -->
+    <style>
+        .api-button {
+            display: none;
+            margin-top: 20px;
+            width: 120%;
+            max-width: 250px;
+            font-size: 13px;
+            white-space: normal;
+            text-align: center;
+            padding: 12px 15px;
+            line-height: 1.4;
+            border-radius: 5px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            background-color: rgba(200, 183, 166, 0.2);
+            border: 1px solid rgba(200, 183, 166, 0.3);
+            color: #dfba96;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .api-button:hover {
+            background-color: rgba(200, 183, 166, 0.3);
+            border-color: rgba(200, 183, 166, 0.5);
+        }
+        .api-button:first-child {
+            margin-top: 50px;
+        }
+        .stop-button {
+            display: none;
+            margin-top: 20px;
+            width: 140%;
+            max-width: 250px;
+            font-size: 14px;
+            background-color: rgba(205, 133, 133, 0.339);
+            border: 1px solid rgba(212, 128, 128, 0.5);
+            color: #dfba96;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .stop-button:hover {
+            background-color: rgba(255, 102, 102, 0.5);
+        }
+        
+        /* 日期筛选模块样式 */
+        .attendance-filters {
+            margin-bottom: 20px;
+            background-color: #87a882b1;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(200, 183, 166, 0.2);
+        }
+        .attendance-filters label {
+            color: #d7bfa7;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        .attendance-filters input[type="date"],
+        .attendance-filters input[type="text"] {
+            background-color: rgba(200, 183, 166, 0.1);
+            border: 1px solid rgba(200, 183, 166, 0.3);
+            color: #f0cfad;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        .attendance-filters button {
+            background-color: rgba(200, 183, 166, 0.15);
+            border: 1px solid rgba(200, 183, 166, 0.3);
+            color: #d7bfa7;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .attendance-filters button:hover {
+            background-color: rgba(221, 181, 142, 0.35);
+            color: #e6d1b6;
+        }
+        
+        /* 工具栏样式 */
+        .attendance-tools {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .attendance-tools button {
+            background-color: rgba(200, 183, 166, 0.15);
+            border: 1px solid rgba(200, 183, 166, 0.3);
+            color: #d7bfa7;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .attendance-tools button:hover {
+            background-color: rgba(221, 181, 142, 0.35);
+            color: #e6d1b6;
+        }
+        
+        /* 全局文字颜色修改 */
+        body, h1, h2, h3, h4, h5, h6, p, span, a, div, button {
+            color: #c8b7a6;
+        }
+        .text-white {
+            color: #d7bfa7 !important;
+        }
+        #dynamicTitle {
+            color: #b4906d !important;
+        }
+        th, td {
+            color: #c8b7a6;
+        }
+        
+        /* 添加更多全局样式 */
+        .s-hero__content-about h1,
+        .s-hero__content-about h2,
+        .s-hero__content-about h3,
+        .section-header-allcaps,
+        .huge-text {
+            color: #c8b7a6;
+        }
+        
+        #startCamera {
+            background-color: rgba(200, 183, 166, 0.2);
+            border: 1px solid rgba(200, 183, 166, 0.3);
+            color: #c8b7a6;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 22px;
+        }
+        
+        #startCamera:hover {
+            background-color: rgba(200, 183, 166, 0.3);
+        }
+        
+        table {
+            border-color: rgba(200, 183, 166, 0.3);
+        }
+        
+        table th {
+            border-bottom-color: rgba(200, 183, 166, 0.5) !important;
+        }
+        
+        table td {
+            border-bottom: 1px solid rgba(200, 183, 166, 0.2);
+        }
+        
+        .contact-block__header,
+        .contact-block__content a {
+            color: #c8b7a6;
+        }
+        
+        .s-footer {
+            color: #c8b7a6;
+        }
+        
+        .s-footer a {
+            color: #c8b7a6;
+        }
+        
+        input::placeholder {
+            color: rgba(200, 183, 166, 0.6);
+        }
+        
+        video {
+            border-color: rgba(200, 183, 166, 0.9) !important;
+            border-width: 2px !important;
+        }
+        
+        .s-header__nav ul li a {
+            color: #c8b7a6;
+        }
+
+        /* 修改"给我们发邮件吧"按钮样式 */
+        .column.large-12 .btn.btn--primary {
+            background-color: rgba(200, 183, 166, 0.3);
+            border: 1px solid rgba(200, 183, 166, 0.5);
+            color: #d6bb6bc5;
+            font-size: 18px;
+        }
+
+        .column.large-12 .btn.btn--primary:hover {
+            background-color: rgba(200, 183, 166, 0.5);
+            border: 1px solid rgba(200, 183, 166, 0.7);
+            color: #ffffff;
+        }
+
+        .attendance-table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        #attendanceTable {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        #attendanceTable thead tr {
+            border-bottom: 3px solid rgba(211, 186, 160, 0.5);
+        }
+
+        #attendanceTable th,
+        #attendanceTable td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        #attendanceTable tbody tr {
+            border-bottom: 1px solid rgba(200, 183, 166, 0.2);
+        }
+    </style>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+
+</head>
+
+<body id="top" class="ss-preload">
+
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+        <div class="row s-header__nav-wrap">
+            <nav class="s-header__nav">
+                <ul>
+                    <li class="current"><a class="smoothscroll" href="#hero">主页</a></li>
+                    <li><a class="smoothscroll" href="#about">检测</a></li>
+                    <li><a class="smoothscroll" href="#records">考勤记录</a></li>
+                    <li><a class="smoothscroll" href="#contact">信息</a></li>
+                </ul>
+            </nav>
+        </div> <!-- end row -->
+        
+        <a class="s-header__menu-toggle" href="#0" title="Menu">
+            <span class="s-header__menu-icon"></span>
+        </a>
+    </header> <!-- end s-header -->
+
+
+    <!-- hero
+    ================================================== -->
+    <section id="hero" class="s-hero target-section">
+
+        <div class="s-hero__bg rellax" data-rellax-speed="-7"></div>
+
+        <div class="row s-hero__content">
+            <div class="column">
+
+                <div class="s-hero__content-about">
+
+                    <h1>人脸识别考勤系统</h1>
+                    <h2>Face-Recognition-Attendance-System</h2>
+                    <h3>
+                        <span class="text-white">武汉大学 国家网络安全学院 人脸识别考勤系统</span><br>
+                        <span class="text-white">支持人脸检测、活体检测、年龄检测、性别检测、表情检测</span><br>
+                        <span>团队成员：陈宗旭：2022302181109</span><br>
+                        <span>团队成员：丁伟轩：2022302181057</span><br>
+                    </h3>
+
+                    <div class="s-hero__content-social">
+                        <a href="#0" onclick="alert('QQ: 1814316618');"><i class="fab fa-qq" aria-hidden="true"></i></a>           
+                        <a href="mailto:1814316618@qq.com"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+                    </div>
+                    
+                    
+
+                </div> <!-- end s-hero__content-about -->
+
+            </div>
+        </div> <!-- s-hero__content -->
+
+        <div class="s-hero__scroll">
+            <a href="#about" class="s-hero__scroll-link smoothscroll">
+                <span class="scroll-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, 1);"><path d="M18.707 12.707L17.293 11.293 13 15.586 13 6 11 6 11 15.586 6.707 11.293 5.293 12.707 12 19.414z"></path></svg>
+                </span>
+                <span class="scroll-text" style="font-size: 18px;">开始使用！</span>
+            </a>
+        </div> <!-- s-hero__scroll -->
+
+    </section> <!-- end s-hero -->
+
+    <hr class="page-divider" />
+
+    <!-- Try
+    ================================================== -->
+    <section id="about" class="s-about target-section">
+        <div class="row" style="text-align: center; margin-top: 0px;">
+            <div class="column large-12 tab-12" style="display: flex; flex-direction: column; align-items: center;">
+                <h3>开始使用！</h3>
+                <button id="startCamera" style="margin-top: 20px;font-size: 28px;">人脸检测</button>  
+            </div>
+            <div class="column large-9 tab-9" style="display: flex; flex-direction: column; align-items: center;">
+                <video id="video" autoplay style="display: none; width: 100%; height: 80%; margin: auto; border: 3px solid white;"></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                <div id="results" style="margin-top: 20px;"></div>
+            </div>
+            <div class="column large-3 tab-3" style="display: flex; flex-direction: column; align-items: center;">
+                <button id="snap1" class="api-button">方法一<br>百度API</button>
+                <button id="snap2" class="api-button">方法二<br>Face_Recognition</button>
+                <button id="snap3" class="api-button">方法三<br>FaceNet</button>
+                <button id="snap4" class="api-button">方法四<br>VGG_Face</button>
+                <button id="stopCamera" class="stop-button">停止检测</button>
+            </div>
+            <div class="column large-12 tab-12" style="display: flex; flex-direction: column; align-items: center; margin-top:-60px;">
+                <h4 id="dynamicTitle" style="display: none; color:white">XXX</h4>
+            </div>
+        </div>
+        
+    
+        <script>
+            let video = document.getElementById('video');
+            let canvas = document.getElementById('canvas');
+            let context = canvas.getContext('2d');
+            let snaps = [
+                document.getElementById('snap1'), 
+                document.getElementById('snap2'), 
+                document.getElementById('snap3'),
+                document.getElementById('snap4')
+            ];
+            let startCamera = document.getElementById('startCamera');
+            let stopCamera = document.getElementById('stopCamera');
+            let resultsDiv = document.getElementById('dynamicTitle');
+            let streamReference;
+    
+            function startCameraFunction() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(stream) {
+                            streamReference = stream;
+                            video.srcObject = stream;
+                            video.play();
+                            video.style.display = 'block';
+                            snaps.forEach(snap => snap.style.display = 'block');
+                            stopCamera.style.display = 'block';
+                            startCamera.style.display = 'none';
+                            resultsDiv.style.display = 'none';
+                        })
+                        .catch(function(err) {
+                            console.log("An error occurred: " + err);
+                        });
+                }
+            }
+    
+            function stopCameraFunction() {
+                if (streamReference) {
+                    resultsDiv.innerHTML = '';
+                    resultsDiv.style.display = 'none';
+                    const tracks = streamReference.getTracks();
+                    tracks.forEach(track => track.stop());
+                    video.style.display = 'none';
+                    snaps.forEach(snap => snap.style.display = 'none');
+                    stopCamera.style.display = 'none';
+                    startCamera.style.display = 'inline';
+                }
+            }
+    
+            startCamera.addEventListener('click', startCameraFunction);
+            stopCamera.addEventListener('click', stopCameraFunction);
+    
+            snaps.forEach((snap, index) => {
+                snap.addEventListener('click', function() {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                    resultsDiv.innerHTML = '';
+                    let image_data_url = canvas.toDataURL('image/png');
+    
+                    // API索引映射，确保第四个按钮调用的是API_4而不是API_5
+                    const apiEndpoint = `/API_${index + 1}`;
+                    
+                    fetch(apiEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: image_data_url })
+                    })
+                    .then(response => response.json())
+                    .then(data => { 
+                        resultsDiv.innerHTML = '';
+                        if (data.pass === "PASS") {
+                            resultsDiv.innerHTML += `您好 ${data.user_id}, 您已成功通过人脸检测! <br>`
+                        } else if(data.livepass === "PASS"){
+                            resultsDiv.innerHTML += `抱歉... 您还没在系统中进行注册! <br>`
+                        } else {
+                            resultsDiv.innerHTML += `抱歉 ${data.user_id}... 您并未通过人脸检测! <br>`
+                        }
+                        
+                        resultsDiv.innerHTML +=`<br>检测得分:${data.score},性别检测:${data.gender}, 年龄检测:${data.age}, 表情检测:${data.expression}, 活体检测:${data.livepass} `;
+                        resultsDiv.style.display = 'block';
+
+                    })
+                    .catch(err => {
+                        console.error(`Error in face recognition with API ${index + 1}:`, err);
+                    });
+                });
+            });
+
+        </script>
+    </section>
+    
+    
+    <hr class="page-divider" />
+    
+    <!-- Attendance Records
+    ================================================== -->
+    <section id="records" class="s-about target-section">
+        <div class="row">
+            <div class="column large-12">
+                <h3 class="section-header-allcaps">考勤记录</h3>
+                
+                <div class="attendance-tools">
+                    <button id="refreshRecords">刷新记录</button>
+                    <button id="exportRecords">导出记录</button>
+                </div>
+                
+                <div class="attendance-filters">
+                    <label for="dateFilter">日期筛选：</label>
+                    <input type="date" id="dateFilter">
+                    
+                    <label for="nameFilter" style="margin-left: 14px;">姓名筛选：</label>
+                    <input type="text" id="nameFilter" placeholder="输入姓名">
+                    
+                    <button id="applyFilters">应用筛选</button>
+                    <button id="clearFilters">清除筛选</button>
+                </div>
+                
+                <div class="attendance-table-container">
+                    <table id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                                <th>签到时间</th>
+                                <th>识别方法</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceData">
+                            <!-- 数据将通过JavaScript加载 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="noRecords" style="text-align: center; padding: 20px; display: none;">
+                    <p>暂无考勤记录</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // 初始加载考勤记录
+                loadAttendanceRecords();
+                
+                // 刷新按钮事件
+                document.getElementById('refreshRecords').addEventListener('click', function() {
+                    loadAttendanceRecords();
+                });
+                
+                // 导出按钮事件
+                document.getElementById('exportRecords').addEventListener('click', function() {
+                    exportAttendanceRecords();
+                });
+                
+                // 应用筛选按钮事件
+                document.getElementById('applyFilters').addEventListener('click', function() {
+                    applyFilters();
+                });
+                
+                // 清除筛选按钮事件
+                document.getElementById('clearFilters').addEventListener('click', function() {
+                    clearFilters();
+                });
+            });
+            
+            function loadAttendanceRecords() {
+                // 获取筛选条件
+                const dateFilter = document.getElementById('dateFilter').value;
+                const nameFilter = document.getElementById('nameFilter').value;
+                
+                // 发送请求获取考勤记录
+                fetch('/get_attendance_records', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date: dateFilter,
+                        name: nameFilter
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayAttendanceRecords(data);
+                })
+                .catch(err => {
+                    console.error('获取考勤记录失败:', err);
+                });
+            }
+            
+            function displayAttendanceRecords(records) {
+                const tableBody = document.getElementById('attendanceData');
+                tableBody.innerHTML = '';
+
+                if (!records || records.length === 0) {
+                    const row = tableBody.insertRow();
+                    const cell = row.insertCell(0);
+                    cell.colSpan = 4;
+                    cell.textContent = '无考勤记录';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '10px';
+                    return;
+                }
+
+                records.forEach((record, index) => {
+                    const row = tableBody.insertRow();
+                    
+                    // 序号
+                    const cellIndex = row.insertCell(0);
+                    cellIndex.textContent = index + 1;
+                    
+                    // 姓名
+                    const cellName = row.insertCell(1);
+                    cellName.textContent = record.name || 'Unknown';
+                    
+                    // 签到时间
+                    const cellTime = row.insertCell(2);
+                    cellTime.textContent = record.timestamp || 'Unknown';
+                    
+                    // 识别方法
+                    const cellMethod = row.insertCell(3);
+                    cellMethod.textContent = record.method || 'Unknown';
+                });
+            }
+            
+            function applyFilters() {
+                loadAttendanceRecords();
+            }
+            
+            function clearFilters() {
+                document.getElementById('dateFilter').value = '';
+                document.getElementById('nameFilter').value = '';
+                loadAttendanceRecords();
+            }
+            
+            function exportAttendanceRecords() {
+                // 获取当前筛选条件
+                const dateFilter = document.getElementById('dateFilter').value;
+                const nameFilter = document.getElementById('nameFilter').value;
+                
+                // 构建导出URL
+                let exportUrl = '/export_attendance_records';
+                const params = [];
+                
+                if (dateFilter) {
+                    params.push(`date=${encodeURIComponent(dateFilter)}`);
+                }
+                
+                if (nameFilter) {
+                    params.push(`name=${encodeURIComponent(nameFilter)}`);
+                }
+                
+                if (params.length > 0) {
+                    exportUrl += `?${params.join('&')}`;
+                }
+                
+                // 触发下载
+                window.location.href = exportUrl;
+            }
+        </script>
+    </section>
+
+    <hr class="page-divider" />
+
+    <!-- contact
+    ================================================== -->
+    <section id="contact" class="s-contact target-section">
+
+        <div class="row s-contact__header">
+            <div class="column large-12">
+                <h3 class="section-header-allcaps">更多详情</h3>
+            </div>
+        </div>
+
+        <div class="row s-contact__content">
+
+            <div class="column large-7 medium-12">
+
+                <h4 class="huge-text">
+                如果您有任何想法或建议，欢迎与我们分享
+                </h4>
+
+            </div>
+
+            <div class="column large-4 medium-12">
+
+                <div class="row contact-infos">
+                    <div class="column large-12 medium-6 tab-12">
+                        <div class="contact-block">
+                            <h5 class="contact-block__header">
+                                邮箱：
+                            </h5>
+                            <p class="contact-block__content">
+                                <a class="mailtoui" href="mailto:1814316618@qq.com">1814316618@qq.com</a>
+                            </p>
+                        </div> <!-- end contact-block -->
+                    </div>
+                    <div class="column large-12 medium-6 tab-12">
+                        <div class="contact-block">
+                            <h5 class="contact-block__header">
+                                电话：
+                            </h5>
+                            <p class="contact-block__content">
+                                <a href="tel:+18855023506">18855023506</a>
+                            </p>
+                        </div> <!-- end contact-block -->
+                    </div>
+
+                    <div class="column large-12">
+                        <a href="mailto:1814316618@qq.com" class="mailtoui btn btn--primary h-full-width">请给我们发邮件吧</a>
+                    </div>
+                </div> <!-- end contact-infos -->
+
+            </div>
+        </div> <!-- s-contact__content -->
+
+    </section> <!-- end s-contact -->
+    
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer">
+        <div class="row">
+            <div class="column large-4 medium-6 w-1000-stack s-footer__social-block">
+                <ul class="s-footer__social">
+                    <li><a href="#0" onclick="alert('QQ: 1814316618');"><i class="fab fa-qq" aria-hidden="true"></i></a></li>
+                    <li><a href="#0"><i class="fab fa-dribbble" aria-hidden="true"></i></a></li>
+                    <li><a href="#0"><i class="fab fa-behance" aria-hidden="true"></i></a></li>
+                    <li><a href="#0"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+                    <li><a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+
+            <div class="column large-7 medium-6 w-1000-stack ss-copyright">
+                <span>© Copyright 2025
+                </span> 
+            </div>
+        </div>
+
+        <div class="ss-go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"/></svg>
+             </a>
+        </div> <!-- end ss-go-top -->
+    </footer>
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/main.js"></script>
+
+</body>
+
+</html>
