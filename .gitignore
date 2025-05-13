@@ -34,8 +34,7 @@ dist/
 build/
 
 # Manual
-README.md
-class1/
+members/
 data/
 
 # 忽略大文件
