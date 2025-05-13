@@ -50,7 +50,7 @@ def search_baidu(image_path):
         image_data = base64.b64encode(image_file.read()).decode('utf-8')  
 
     imageType = "BASE64"
-    groupIdList = "class1"
+    groupIdList = "members"
     result = client.search(image_data, imageType, groupIdList);
     print(result)
 
