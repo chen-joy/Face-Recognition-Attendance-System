@@ -40,9 +40,9 @@ def search_baidu(image_path):
     
     response = {}
     
-    APP_ID = "118624557"
-    API_KEY = "fGmrDVpFXiEoCvRsf4UdAkVf"
-    SECRET_KEY = "j0odgcPELrPxoXD2eKNloFkHrGJOm5Lx"
+    APP_ID = "xxxxx"
+    API_KEY = "xxxxxx"
+    SECRET_KEY = "xxxxxxxxx"
     client = AipFace(APP_ID, API_KEY, SECRET_KEY)
     
     # 读取图片内容并进行Base64编码
