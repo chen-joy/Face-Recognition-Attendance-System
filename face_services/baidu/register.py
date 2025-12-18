@@ -18,9 +18,9 @@ if not id_name_mapping:
     sys.exit(1)
 
 # 百度API参数
-APP_ID = "118624557"
-API_KEY = "fGmrDVpFXiEoCvRsf4UdAkVf"
-SECRET_KEY = "j0odgcPELrPxoXD2eKNloFkHrGJOm5Lx"
+APP_ID = ""
+API_KEY = ""
+SECRET_KEY = ""
 client = AipFace(APP_ID, API_KEY, SECRET_KEY)
 
 image_folder = './members'
